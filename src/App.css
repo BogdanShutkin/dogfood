@@ -36,3 +36,7 @@
     transform: rotate(360deg);
   }
 }
+
+.wrapper {
+  background-image: url('../public/images/1111111.jpeg');
+}
