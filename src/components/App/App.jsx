@@ -6,10 +6,23 @@ import Footer from '../Footer/Footer';
 import data from '../../data.json'
 import { useState, useEffect } from 'react';
 import { Logo } from '../Logo/Logo';
+import { api } from '../../utils/api';
 
 function App() {
-    const [cards, setCards] = useState(data);
+    const [cards, setCards] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
+    const [currentUser, setCurrentUser] = useState(null);
+    
+    const getList = async () => await api.getProductsList();
+    const getUser = async () => await api.getUserInfo();
+
+    useEffect(() => {
+        getList().then(data => setCards(data.products));
+      }, []);
+
+    useEffect(() => {
+        getUser().then(user => setCurrentUser(user));
+    }, []);
 
     useEffect(() => {
         handleRequest();
@@ -20,18 +33,24 @@ function App() {
         handleRequest();
     }
 
+
     const handleRequest = () => {
-        const filterCard = data.filter(item => item.name.toUpperCase().includes(searchQuery.toUpperCase()))
-        setCards(filterCard);
+        api.getListBySearch(searchQuery).then(data => {
+            setCards(data);
+        }).catch(err => console.error(err));
     }
-    
+    // const handleRequest = () => {
+    //     const filterCard = data.filter(item => item.name.toUpperCase().includes(searchQuery.toUpperCase()))
+    //     setCards(filterCard);
+    // }
+
     const handleInputChange = (inputValue) => {
         setSearchQuery(inputValue);
     }
 
     return (
         <>
-            <Header>
+            <Header user={currentUser}>
                 <Logo className='logo logo_place_header' href='/' />
                 <Search onInput={handleInputChange} onSubmit={handleFormSubmit} />
             </Header>

@@ -4,7 +4,7 @@ import like from './like.svg'
 
 
 
-const Card = ({ name, price, discount, wight, description, picture }) => {
+const Card = ({ name, price, discount, wight, description, pictures }) => {
   const discountPrice = Math.round(price - price * discount / 100);
   
   return (
@@ -18,7 +18,7 @@ const Card = ({ name, price, discount, wight, description, picture }) => {
         </button>
       </div>
       <a href="#" className='card__link'>
-          <img src= {picture} alt={description} className='card__image'/>
+          <img src= {pictures} alt={description} className='card__image'/>
         <div className="card__desc">
           {/* <span className='card__price'>{price}</span> */}
           <span className={discount !== 0  ? 'card__old-price' : 'card__price'}>{price}&nbsp;₽</span>

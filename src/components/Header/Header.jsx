@@ -1,15 +1,18 @@
-import './index.css';
-// import { Logo } from '../Logo/Logo';
-// import { Search } from '../Search/Search';
+// import './index.css';
+import s from './Header.module.css'
+import cn from 'classnames';
 
-const Header = ({children}) => {
+const Header = ({user, children}) => {
     return (
-        <header>
-            <div className="header">
-                <div className="container">
-                    <div className="header__wrapper">
-                        {children}
-                    </div>
+        <header className={cn(s.header, 'js-click')}>
+            <div className="container">
+                <p>Выполнен вход с аккаунта:
+                    {user?.name ? <span> {user?.name}, </span> : null}
+                    {user?.email && <span>{user?.email}</span>}
+                </p>
+                
+                <div className={s.wrapper}>
+                    {children}
                 </div>
             </div>
         </header>
