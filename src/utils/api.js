@@ -26,6 +26,14 @@ class Api {
         }).then(onResponse)
     }
 
+    changeLikeProduct(productId, isLike) {
+        console.log('isLike', isLike);
+        return fetch(`${this._baseUrl}/products/likes/${productId}`, {
+            method: isLike ? 'DELETE' : 'PUT',
+            headers: this._headers,
+        }).then(onResponse)
+    }
+
 }
 
 const config = {

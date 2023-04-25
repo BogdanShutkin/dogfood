@@ -48,6 +48,19 @@ function App() {
         setSearchQuery(inputValue);
     }
 
+    const handleProductLike = (product) => {
+        const isLiked = (likes, userId) => likes?.some(id => id === userId);
+        const liked = isLiked(product.likes, currentUser._id);
+        api.changeLikeProduct(product._id, liked).then((newCard) => {
+            const newCards = cards.map((card) => {
+                // console.log('Карточка в переборе', card);
+                // console.log('Карточка с сервера', newCard);
+                return card._id === newCard._id ? newCard : card;
+             })
+            setCards(newCards);
+        })
+    }
+
     return (
         <>
             <Header user={currentUser}>
@@ -55,7 +68,7 @@ function App() {
                 <Search onInput={handleInputChange} onSubmit={handleFormSubmit} />
             </Header>
             <main className="content container">
-                <CardList cards={cards}/>
+                <CardList cards={cards} onProductLike={handleProductLike} currentUser={currentUser} />
             </main>
             <Footer />
         </>

@@ -1,11 +1,20 @@
 import React from 'react';
 import './index.css';
-import like from './like.svg'
+// import like from './like.svg'
+import { ReactComponent as Like } from "./like.svg";
+import cn from 'classnames'
 
 
 
-const Card = ({ name, price, discount, wight, description, pictures }) => {
+const Card = ({ name, price, discount, wight, description, pictures, currentUser, onProductLike, likes, _id }) => {
   const discountPrice = Math.round(price - price * discount / 100);
+  const isLiked = (likes, userId) => likes?.some(id => id === userId);
+  const liked = isLiked(likes, currentUser?._id);
+
+  const handleLikeClick = () => {
+    console.log('click', isLiked);
+    onProductLike({_id, likes})
+}
   
   return (
     <div className='card'>
@@ -13,8 +22,10 @@ const Card = ({ name, price, discount, wight, description, pictures }) => {
         {!!discount && <span className='card__discount'>-{discount}%</span>} {/* двойное отрицание для проверки на булевый тип, без него отражает 0*/}
       </div>
       <div className="card__sticky card__sticky_type_top-right">
-        <button className='card__favorite'>
-          <img src={like} alt="Добавить в избранное" className='card__favorite-icon'/>
+        <button className={cn('card__favorite', {
+                  'card__favorite_is-active': liked
+              })} onClick={handleLikeClick}>
+          <Like className='card__favorite-icon'/>
         </button>
       </div>
       <a href="#" className='card__link'>
