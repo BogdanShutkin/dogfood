@@ -5,6 +5,7 @@ import CardList from "../CardList/CardList";
 import Footer from '../Footer/Footer';
 import data from '../../data.json'
 import { useState, useEffect } from 'react';
+import useDebouncedValue  from '../../hooks/useDebounceValue';
 import { Logo } from '../Logo/Logo';
 import { api } from '../../utils/api';
 
@@ -12,6 +13,7 @@ function App() {
     const [cards, setCards] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [currentUser, setCurrentUser] = useState(null);
+    const debounceSearchQuery = useDebouncedValue(searchQuery, 300);
     
     const getList = async () => await api.getProductsList();
     const getUser = async () => await api.getUserInfo();
@@ -26,7 +28,7 @@ function App() {
 
     useEffect(() => {
         handleRequest();
-    },[searchQuery]);
+    },[debounceSearchQuery]);
 
     function handleFormSubmit(e) {
         e.preventDefault();
@@ -35,7 +37,7 @@ function App() {
 
 
     const handleRequest = () => {
-        api.getListBySearch(searchQuery).then(data => {
+        api.getListBySearch(debounceSearchQuery).then(data => {
             setCards(data);
         }).catch(err => console.error(err));
     }
