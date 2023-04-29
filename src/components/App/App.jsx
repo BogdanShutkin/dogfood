@@ -1,29 +1,48 @@
 import './index.css';
 import Header from "../Header/Header";
 import Search from '../Search/Search'
-import CardList from "../CardList/CardList";
 import Footer from '../Footer/Footer';
-import data from '../../data.json'
 import { useState, useEffect } from 'react';
 import useDebouncedValue  from '../../hooks/useDebounceValue';
 import { Logo } from '../Logo/Logo';
 import { api } from '../../utils/api';
+import { isLiked } from '../../utils/products';
+import Spinner from '../Spiner/Spinner';
+import SearchInfo from "../../components/SearchInfo/SearchInfo";
+import { Route, Routes } from 'react-router-dom';
+import ProductPage from "../../pages/ProductPage/ProductPage"
+import CatalogPage from "../../pages/CatalogPage/CatalogPage"
+import NotFoundPage from '../../pages/NotFoundPage/NotFoundPage';
 
 function App() {
     const [cards, setCards] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [currentUser, setCurrentUser] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
     const debounceSearchQuery = useDebouncedValue(searchQuery, 300);
     
-    const getList = async () => await api.getProductsList();
-    const getUser = async () => await api.getUserInfo();
+    // const getList = async () => await api.getProductsList();
+    // const getUser = async () => await api.getUserInfo();
+
+    // useEffect(() => {
+    //     getList().then(data => setCards(data.products));
+    //   }, []);
+
+    // useEffect(() => {
+    //     getUser().then(user => setCurrentUser(user));
+    // }, []);
 
     useEffect(() => {
-        getList().then(data => setCards(data.products));
-      }, []);
-
-    useEffect(() => {
-        getUser().then(user => setCurrentUser(user));
+        setIsLoading(true);
+        Promise.all([api.getUserInfo(), api.getProductsList()])
+            .then(([user, data]) => {
+                setCurrentUser(user);
+                setCards(data.products);
+            })
+            .catch(err => console.error(err))
+            .finally(() => {
+                setIsLoading(false);
+            })
     }, []);
 
     useEffect(() => {
@@ -37,9 +56,11 @@ function App() {
 
 
     const handleRequest = () => {
-        api.getListBySearch(debounceSearchQuery).then(data => {
-            setCards(data);
-        }).catch(err => console.error(err));
+        setIsLoading(true);
+        api.getListBySearch(debounceSearchQuery)
+        .then(data => {setCards(data)})
+        .catch(err => console.error(err))
+        .finally(() => {setIsLoading(false)})
     }
     // const handleRequest = () => {
     //     const filterCard = data.filter(item => item.name.toUpperCase().includes(searchQuery.toUpperCase()))
@@ -51,7 +72,6 @@ function App() {
     }
 
     const handleProductLike = (product) => {
-        const isLiked = (likes, userId) => likes?.some(id => id === userId);
         const liked = isLiked(product.likes, currentUser._id);
         api.changeLikeProduct(product._id, liked).then((newCard) => {
             const newCards = cards.map((card) => {
@@ -69,9 +89,17 @@ function App() {
                 <Logo className='logo logo_place_header' href='/' />
                 <Search onInput={handleInputChange} onSubmit={handleFormSubmit} />
             </Header>
+
             <main className="content container">
-                <CardList cards={cards} onProductLike={handleProductLike} currentUser={currentUser} />
-            </main>
+                <SearchInfo searchCount={cards.length} searchText={searchQuery} />
+
+                <Routes>
+                    <Route index element={<CatalogPage isLoading={isLoading} handleProductLike={handleProductLike} currentUser={currentUser} cards={cards}/>} />
+                    <Route path='/product/:productId' element={<ProductPage />} />
+                    <Route path='*' element={<NotFoundPage/>} />
+                </Routes>
+                </main>
+                
             <Footer />
         </>
     )

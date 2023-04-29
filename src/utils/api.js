@@ -14,6 +14,12 @@ class Api {
         }).then(onResponse)
     }
 
+    getProductById(idProduct) {
+        return fetch(`${this._baseUrl}/products/${idProduct}`, {
+            headers: this._headers,
+        }).then(onResponse)
+    }
+
     getListBySearch(searchQuery) {
         return fetch(`${this._baseUrl}/products/search?query=${searchQuery}`, {
             headers: this._headers,
@@ -27,7 +33,6 @@ class Api {
     }
 
     changeLikeProduct(productId, isLike) {
-        console.log('isLike', isLike);
         return fetch(`${this._baseUrl}/products/likes/${productId}`, {
             method: isLike ? 'DELETE' : 'PUT',
             headers: this._headers,

@@ -1,18 +1,17 @@
 import React from 'react';
 import './index.css';
-// import like from './like.svg'
+import { calcDiscountPrice, isLiked } from '../../utils/products';
 import { ReactComponent as Like } from "./like.svg";
 import cn from 'classnames'
+import { Link } from 'react-router-dom';
 
 
 
-const Card = ({ name, price, discount, wight, description, pictures, currentUser, onProductLike, likes, _id }) => {
-  const discountPrice = Math.round(price - price * discount / 100);
-  const isLiked = (likes, userId) => likes?.some(id => id === userId);
+const Card = ({ name, price, discount, wight, description, pictures, currentUser, onProductLike, likes, _id, tags }) => {
+  const discountPrice = calcDiscountPrice(price, discount);
   const liked = isLiked(likes, currentUser?._id);
 
   const handleLikeClick = () => {
-    console.log('click', isLiked);
     onProductLike({_id, likes})
 }
   
@@ -20,6 +19,10 @@ const Card = ({ name, price, discount, wight, description, pictures, currentUser
     <div className='card'>
       <div className="card__sticky card__sticky_type_top-left">
         {!!discount && <span className='card__discount'>-{discount}%</span>} {/* двойное отрицание для проверки на булевый тип, без него отражает 0*/}
+        {tags && tags.map(tag => <span key={tag} className={cn('tag', {
+          ['tag_type_new']: tag ==='new',
+          ['tag_type_sale']: tag === 'sale',
+        })}>{tag}</span>)}
       </div>
       <div className="card__sticky card__sticky_type_top-right">
         <button className={cn('card__favorite', {
@@ -28,7 +31,7 @@ const Card = ({ name, price, discount, wight, description, pictures, currentUser
           <Like className='card__favorite-icon'/>
         </button>
       </div>
-      <a href="#" className='card__link'>
+      <Link to={`/product/${_id}`} className='card__link'>
           <img src= {pictures} alt={description} className='card__image'/>
         <div className="card__desc">
           {/* <span className='card__price'>{price}</span> */}
@@ -37,7 +40,7 @@ const Card = ({ name, price, discount, wight, description, pictures, currentUser
           <span className='card__weight'>{wight}</span>
           <p className="card__name">{name}</p>
         </div>
-      </a>
+      </Link>
       <a href="#" className='card__cart btn btn_type_primary'>В корзину</a>
     </div>);
 };
