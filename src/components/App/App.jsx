@@ -13,6 +13,8 @@ import { Route, Routes } from 'react-router-dom';
 import ProductPage from "../../pages/ProductPage/ProductPage"
 import CatalogPage from "../../pages/CatalogPage/CatalogPage"
 import NotFoundPage from '../../pages/NotFoundPage/NotFoundPage';
+import { UserContext } from '../../context/userContext';
+import { CardContext } from '../../context/cardContext';
 
 function App() {
     const [cards, setCards] = useState([]);
@@ -84,24 +86,26 @@ function App() {
     }
 
     return (
-        <>
-            <Header user={currentUser}>
-                <Logo className='logo logo_place_header' href='/' />
-                <Search onInput={handleInputChange} onSubmit={handleFormSubmit} />
-            </Header>
+        <UserContext.Provider value={{user: currentUser, isLoading}}>
+            <CardContext.Provider value={{cards, handleProductLike}}>
+                <Header>
+                    <Logo className='logo logo_place_header' href='/' />
+                    <Search onInput={handleInputChange} onSubmit={handleFormSubmit} />
+                </Header>
 
-            <main className="content container">
-                <SearchInfo searchCount={cards.length} searchText={searchQuery} />
+                <main className="content container">
+                    <SearchInfo searchCount={cards.length} searchText={searchQuery} />
 
-                <Routes>
-                    <Route index element={<CatalogPage isLoading={isLoading} handleProductLike={handleProductLike} currentUser={currentUser} cards={cards}/>} />
-                    <Route path='/product/:productId' element={<ProductPage />} />
-                    <Route path='*' element={<NotFoundPage/>} />
-                </Routes>
-                </main>
-                
-            <Footer />
-        </>
+                    <Routes>
+                        <Route index element={<CatalogPage />} />
+                        <Route path='/product/:productId' element={<ProductPage />} />
+                        <Route path='*' element={<NotFoundPage/>} />
+                    </Routes>
+                    </main>
+                    
+                <Footer />
+            </CardContext.Provider>
+        </UserContext.Provider>
     )
 }
 

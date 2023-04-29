@@ -1,14 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import CardList from "../../components/CardList/CardList";
-import Spinner from '../../components/Spiner/Spinner'
+import Spinner from '../../components/Spiner/Spinner';
+import { UserContext } from "../../context/userContext";
 
-const CatalogPage = ({isLoading, cards, handleProductLike, currentUser}) => {
+const CatalogPage = () => {
+    const {isLoading} = useContext(UserContext);
+
     return (
         <>
         {isLoading ?(
             <Spinner />
         ):(
-            <CardList isLoading={isLoading} cards={cards} onProductLike={handleProductLike} currentUser={currentUser}/>
+            <CardList />
         )}
         </>
     )

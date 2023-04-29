@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './index.css';
 import Card from '../Card/Card';
 import { useNavigate } from 'react-router-dom';
 import NotFound from '../../components/NotFound/NotFound'
+import { UserContext } from '../../context/userContext';
+import { CardContext } from '../../context/cardContext';
 
-const CardList = ({isLoading, cards, currentUser, onProductLike}) => {
-    const navigate = useNavigate();
+const CardList = () => {
+    const { user: currentUser, isLoading } = useContext(UserContext);
+    const { cards, handleProductLike } = useContext(CardContext);
+    const navigate = useNavigate(UserContext);
 
     return (
     <>
@@ -16,7 +20,7 @@ const CardList = ({isLoading, cards, currentUser, onProductLike}) => {
         <div className='cards'>
             {cards.map(el => {
                 return (
-                    <Card key={el._id} {...el} onProductLike={onProductLike} currentUser={currentUser} />
+                    <Card key={el._id} {...el} onProductLike={handleProductLike} currentUser={currentUser} />
                     )
                 }) }
         </div>

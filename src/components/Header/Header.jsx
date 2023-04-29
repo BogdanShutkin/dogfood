@@ -1,8 +1,12 @@
 // import './index.css';
 import s from './Header.module.css'
 import cn from 'classnames';
+import { UserContext } from '../../context/userContext';
+import { useContext } from 'react';
 
-const Header = ({user, children}) => {
+const Header = ({children}) => {
+    const {user} = useContext(UserContext)
+
     return (
         <header className={cn(s.header, 'js-click')}>
             <div className="container">
