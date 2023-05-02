@@ -6,9 +6,9 @@ import NotFound from '../../components/NotFound/NotFound'
 import { UserContext } from '../../context/userContext';
 import { CardContext } from '../../context/cardContext';
 
-const CardList = () => {
+const CardList = ({cards}) => {
     const { user: currentUser, isLoading } = useContext(UserContext);
-    const { cards, handleProductLike } = useContext(CardContext);
+    const { handleProductLike } = useContext(CardContext);
     const navigate = useNavigate(UserContext);
 
     return (

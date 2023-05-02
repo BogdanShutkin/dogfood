@@ -39,6 +39,12 @@ class Api {
         }).then(onResponse)
     }
 
+    makeRewiew(productId) {
+        return fetch(`${this._baseUrl}/rewiew/${productId}`, {
+            method: 'POST',
+            headers: this._headers,
+        }).then(onResponse)
+    }
 }
 
 const config = {

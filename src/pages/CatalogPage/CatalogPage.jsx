@@ -1,18 +1,24 @@
 import React, { useContext } from "react";
 import CardList from "../../components/CardList/CardList";
-import Spinner from '../../components/Spiner/Spinner';
-import { UserContext } from "../../context/userContext";
+import { CardContext } from "../../context/cardContext";
+import ContentHeader from "../../components/ContentHeader/ContentHeader";
+import CardSkeleton from "../../components/CardSceleton/CardSkeleton";
+import { skeletonFakeArray } from "./data";
 
 const CatalogPage = () => {
-    const {isLoading} = useContext(UserContext);
+    const {cards} = useContext(CardContext);
+    const skeletonArray = skeletonFakeArray.map((el) => <CardSkeleton key={el}/>)
 
     return (
         <>
-        {isLoading ?(
-            <Spinner />
-        ):(
-            <CardList />
-        )}
+            <ContentHeader title='Каталог' />
+            {cards.length === 0 ? (
+                <div className="cards">
+                    {skeletonArray}
+                </div>
+            ) : (
+                <CardList cards={cards}/>
+            )}
         </>
     )
 }

@@ -1,32 +1,40 @@
-import React from "react";
+import React, { useContext } from "react";
 import s from "./Product.module.css";
 import { calcDiscountPrice, createMarkup, isLiked } from "../../utils/products";
 import cn from "classnames";
 import truck from "./img/truck.svg";
-import quality from "./img/quality.svg";
-import left from "./img/Left arrow.svg";
+import quality from "./img/quality.svg"; 
+import comments from "./img/comments.svg"; 
 import { ReactComponent as Save } from "./img/save.svg";
+import { UserContext } from "../../context/userContext";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import ContentHeader from "../ContentHeader/ContentHeader";
+import { Link } from "react-router-dom/dist";
 
-const Product = ({currentUser, _id, onProductLike, description, discount, price, name, pictures, likes}) => {
+const Product = ({_id, onProductLike, description, discount, price, name, pictures, likes}) => {
+    const { user: currentUser } = useContext(UserContext);
+    const navigate = useNavigate();
+    
     const discountPrice = calcDiscountPrice(price, discount);
     const liked = isLiked(likes, currentUser?._id);
     const descriptionHtml = createMarkup(description);
-    const navigate = useNavigate();
-
     const [num, setNum] = useState(0);
 
     return (
         <>
-            <div>
+            {/* <div>
                 
                 <a href="#" className={s.buttonBack} onClick={() => navigate(-1)}><img src={left} alt="назад" />Назад</a>
                 <h1 className={s.productTitle}>{name}</h1>
                 <div>
                     <span>Артикул: <b>{_id}</b></span>
                 </div>
-            </div>
+            </div> */}
+
+            <ContentHeader title={name}>
+                <span>Артикул: <b>{_id}</b></span>
+            </ContentHeader>
 
             <div className={s.product}>
 
@@ -100,6 +108,11 @@ const Product = ({currentUser, _id, onProductLike, description, discount, price,
                       <p>Следует учесть высокую калорийность продукта.</p>
                   </div>
               </div>
+          </div>
+          <div className={s.rewiews}>
+            <img src={comments} alt="comments" />
+            <p>Еще никто не оставил отзыв. Станьте первым!</p>
+            <Link to={`/rewiew/${_id}`} className={cn('btn', 'btn_type_primary', s.rewiewBtn)}>Написать отзыв</Link>
           </div>
         </>
     )

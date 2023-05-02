@@ -39,6 +39,8 @@ img {
 
 :root {
   --text-main-color: #1A1A1A;
-
   --primary-main-color: #FFE44D;
+  --primary-red-color: #F44336;
+  --border-grey-color: #CFD8DC;
+  --secondary-text: #7B8E98;
 }

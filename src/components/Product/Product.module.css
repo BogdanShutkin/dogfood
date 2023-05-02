@@ -54,6 +54,23 @@
     margin-bottom: 24px;
 }
 
+.rewiews {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: rgba(236, 239, 241, 0.5);
+    border-radius: 12px;
+    padding: 12px;
+    gap: 12px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.rewiewBtn {
+    padding: 14px 70px;
+    /* flex: 1; */
+}
+
 .btnWrap {
     display: flex;
     align-items: center;
@@ -62,18 +79,8 @@
     margin-bottom: 24px;
 }
 
-.buttonBack {
-    text-decoration: none;
-    width: 40px;
-    height: 20px;
-    color: #7B8E98;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 20px;
-}
-
 .cart {
-    padding: 14px 90px;
+    padding: 14px 70px;
     flex: 1;
 }
 

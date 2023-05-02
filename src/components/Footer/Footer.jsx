@@ -5,6 +5,7 @@ import viber from './img/viber.svg';
 import instagram from './img/instagram.svg';
 import vk from './img/vk.svg';
 import { Logo } from '../Logo/Logo';
+import { Link } from 'react-router-dom/dist';
 
 function Footer () {
     return  (
@@ -26,7 +27,8 @@ function Footer () {
                 <div className="footer__col">
                 <nav className='menu-bottom'>
                         <a href="#" className='menu-bottom__item'>Оплата и доставка</a>
-                        <a href="#" className='menu-bottom__item'>Часто спрашивают</a>
+                        {/* <a href="#" className='menu-bottom__item'>Часто спрашивают</a> */}
+                        <Link to={{pathname: '/faq'}} className='menu-bottom__item'>Часто спрашивают</Link>
                         <a href="#" className='menu-bottom__item'>Обратная связь</a>
                         <a href="#" className='menu-bottom__item'>Контакты</a>
                     </nav>

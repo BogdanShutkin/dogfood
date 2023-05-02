@@ -1,0 +1,55 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* align-items: center; */
+    padding: 16px;
+    position: relative;
+    width: 420px;
+    height: 426px;
+    /* box-shadow: 0px 2px 8px rgba(40, 41, 61, 0.08), 0px 20px 32px rgba(96, 97, 112, 0.24); */
+    border-radius: 20px;
+    /* width: 350px;
+    gap: 10px;*/
+    margin: 0 auto; 
+}
+
+.btn {
+    margin-bottom: 8px;
+}
+
+.title {
+    text-align: left;
+    font-style: normal;
+    font-weight: 800;
+    font-size: 24px;
+    line-height: 32px;
+}
+
+.input {
+    border: 1px solid var(--border-grey-color);
+}
+
+.inputError {
+    border: 1px solid var(--primary-red-color);
+}
+
+.errorMessage {
+    color: var(--primary-red-color);
+}
+
+.description {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 14px;
+    color: var(--secondary-text);
+    margin: 18px 0;
+    /* width: 356px; */
+    height: 42px;
+
+}
+
+.resetPassword {
+    text-align: right;
+    text-decoration: none;
+}

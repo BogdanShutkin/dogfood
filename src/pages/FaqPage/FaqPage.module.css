@@ -1,0 +1,27 @@
+.container {
+    margin: 0 50px;
+}
+
+.title {
+    font-weight: 800;
+    font-size: 28px;
+    margin-bottom: 30px;
+}
+
+.question {
+    font-weight: 600;
+    font-size: 20px;
+    margin: 50px 0;
+    text-align: center;
+    padding-top: 15px;
+    background: var(--primary-main-color);
+    border-radius: 20px;
+    box-shadow: 0.375em 0.375em 0 0 rgba(109, 123, 47, 0.125);
+    height: 50px;
+    width: 100%;
+}
+
+.answer {
+    font-weight: 400;
+    font-size: 16px;
+}
